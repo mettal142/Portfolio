@@ -14,5 +14,5 @@ Unreal Portfolio
 ---
 HUD
 ---
-![스크린샷 2024-03-25 233612](https://github.com/mettal142/TPS/assets/40825944/7f857f9c-3364-4810-9e94-5f9a7110fba8)
+![스크린샷 2024-03-25 233612](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/Character%20Structure.png)
 
