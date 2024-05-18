@@ -12,7 +12,7 @@ Unreal Portfolio
 
 기술 설명서
 ---
-HUD
+Character
 ---
 ![스크린샷 2024-03-25 233612](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/Character%20Structure.png)
 
