@@ -8,7 +8,7 @@ Unreal Portfolio
 ---
 >YouTube
 
-[![이미지 텍스트](https://i9.ytimg.com/vi_webp/nOkH8RUjV6Y/mqdefault.webp?v=6645fc40&sqp=CJz2l7IG&rs=AOn4CLC3sVrhyp-NAXT84hf9FkAfgVd1IQ)](https://youtu.be/nOkH8RUjV6Y)
+[![이미지 텍스트](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/Character%20Structure.png)](https://youtu.be/nOkH8RUjV6Y)
 
 기술 설명서
 ---
