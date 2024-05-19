@@ -17,13 +17,13 @@ Character
 ![스크린샷 2024-03-25 233612](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/Character%20Structure.png)
 
 + Animation Instance
-  
+  FABRIK(Forward And Backward Reaching Inverse Kinematics) 설명
   
 ---
 CombatComponent
 ---
 무기와의 상호작용 및 교전에 관련된 기능을 구현한 컴포넌트
-+ Equip/UnEquip
++ Equip/Unequip
 + Fire
 + Reload
 + Zoom
