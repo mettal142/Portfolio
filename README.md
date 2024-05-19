@@ -179,7 +179,6 @@ Pickup Item
 
 + Healing Pack
   ![Health](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231017.png)
-
   > 일정 시간동안 일정량의 체력 회복 - HealthPickup.cpp
 
 		void AHealthPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
