@@ -9,6 +9,7 @@ Unreal Portfolio
 >YouTube
 
 [![이미지 텍스트](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/HUD.png)](https://youtu.be/nOkH8RUjV6Y)
+ + 이미지 클릭 시 영상 재생
 
 ---
 Character
@@ -153,6 +154,9 @@ Pickup Item
 ---
 별도의 상호작용 입력 없이 Collision으로 작용하는 아이템
 + Ammo
+
+  ![Ammo](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20230000.png)
+
   > 해당 총기군의 탄약 증가 - AmmoPickup.cpp
   
 	   void AAmmoPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
@@ -172,6 +176,27 @@ Pickup Item
 				Destroy();
 			
 			}
-	  
 
 + Healing Pack
+  ![Health](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231017.png)
+
+  > 일정 시간동안 일정량의 체력 회복 - HealthPickup.cpp
+
+		void AHealthPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+			UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+			{
+				Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComponent, OtherBodyIndex, bFromSweep, SweepResult);
+			
+				ABlasterCharacter* BlasterCharacter = Cast < ABlasterCharacter>(OtherActor);
+				if (BlasterCharacter)
+				{
+					UBuffComponent* Buff = BlasterCharacter->GetBuff();
+					if (Buff)
+					{
+						Buff->Heal(HealthAmount,healingTime);
+					}
+				}
+				Destroy();
+			
+			}
+
