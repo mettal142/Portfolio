@@ -153,5 +153,25 @@ Pickup Item
 ---
 별도의 상호작용 입력 없이 Collision으로 작용하는 아이템
 + Ammo
+  > 해당 총기군의 탄약 증가 - AmmoPickup.cpp
+  
+	   void AAmmoPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
+		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+			{
+				Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComponent, OtherBodyIndex, bFromSweep, SweepResult);
+			
+				ABlasterCharacter* BlasterCharacter = Cast < ABlasterCharacter>(OtherActor);
+				if (BlasterCharacter)
+				{
+					UCombatComponent* Combat = BlasterCharacter->GetCombat();
+					if (Combat)
+					{
+						Combat->PickupAmmo(WeaponType, AmmoAmount);
+					}
+				}
+				Destroy();
+			
+			}
+	  
 
 + Healing Pack
