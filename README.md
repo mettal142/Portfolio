@@ -8,7 +8,7 @@ Unreal Portfolio
 ---
 >YouTube
 
-[![이미지 텍스트](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231827.png)
+[![이미지 텍스트](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231827.png)](https://youtu.be/nOkH8RUjV6Y)
  + 이미지 클릭 시 영상 재생
 
 ---
