@@ -16,8 +16,11 @@ Character
 + Character Structure
 ![스크린샷 2024-03-25 233612](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/Character%20Structure.png)
 
-+ Animation Instance
-  Character Mesh의 손 위치를 총기의 알맞은 소켓에 두기 위해 FABRIK(Forward And Backward Reaching Inverse Kinematics) 사용
+---
+Animation
+---
+
++ Character Mesh의 손 위치를 총기의 알맞은 소켓에 두기 위해 FABRIK(Forward And Backward Reaching Inverse Kinematics) 사용
 > Animation Instance.cpp
 
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && BlasterCharacter->GetMesh())
