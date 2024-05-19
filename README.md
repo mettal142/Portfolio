@@ -60,28 +60,91 @@ CombatComponent
 ---
 Weapon
 ---
-+ Projectile Weapon
-  + Rocket Launcher
-    
-    + Rocket Projectile
-      
-  + Grenade Launcher
-    
-    + Grenade Projectile
 
-+ HitScan Weapon
-  + Assult Rifle
-    
-  + SubMachineGun
- 
-  + Sniper Rifle
- 
-  + Pistol
- 
-  + Shotgun
++ Projectile Weapon : 투사체를 발사하는 무기군 - Assult Rifle, Grenade Launcher, Rocket Launcher
+  > 범위형 데미지 - Projectile.cpp
 
-+ Scatter
+		void AProjectile::ExplodeDamage()
+			{
+				APawn* FiringPawn = GetInstigator();
+				if (FiringPawn)
+				{
+					AController* FiringController = FiringPawn->GetController();
+					if (FiringController && HasAuthority())
+					{
+						UGameplayStatics::ApplyRadialDamageWithFalloff(
+							this,
+							Damage,
+							10.f,
+							GetActorLocation(),
+							DamageInnerRadius,
+							DamageOuterRadius,
+							1.f,
+							UDamageType::StaticClass(),
+							TArray<AActor*>(),
+							this,
+							FiringController
+						);
+					}
+				}
+			}
+	
 
++ HitScan Weapon : LineTrace로 피격을 감지하는 무기군 ( SubMachineGun, Sniper Rifle, Pistol, Shotgun)
+ > 피격 감지 - HieScanWeapon.cpp
+
+	void AHitScanWeapon::WeaponTraceHit(const FVector& TraceStart, const FVector& HitTarget, FHitResult& OutHit)
+		{	
+			UWorld* World = GetWorld();
+			
+			if (World)
+			{
+				FVector End = bUseScatter ? TraceEndWithScatter(TraceStart,HitTarget) : TraceStart + (HitTarget - TraceStart) * 1.25f;
+		
+				World->LineTraceSingleByChannel(
+					OutHit,
+					TraceStart,
+					End,
+					ECollisionChannel::ECC_Visibility
+				);
+				FVector BeamEnd = End;
+				if (OutHit.bBlockingHit)
+				{
+					BeamEnd = OutHit.ImpactPoint;
+				}
+				if (BeamParticles)
+				{
+					UParticleSystemComponent* Beam = UGameplayStatics::SpawnEmitterAtLocation(
+						World,
+						BeamParticles,
+						TraceStart,
+						FRotator::ZeroRotator,
+						true
+					);
+					if (Beam)
+					{
+						Beam->SetVectorParameter(FName("Target"), BeamEnd);
+					}
+				}
+			}
+		}
+
++ Scatter : 무기 격발 시 발생하는 탄퍼짐 기능
+  > 탄퍼짐 - HitScanWeapon.cpp
+
+	  FVector AHitScanWeapon::TraceEndWithScatter(const FVector& TraceStart, const FVector& HitTarget)
+		{
+			FVector ToTargetNormalized = (HitTarget - TraceStart).GetSafeNormal();
+			FVector SphereCenter = TraceStart + ToTargetNormalized * DistanceToSphere;
+			FVector RandVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, SphereRadius);
+			FVector EndLoc = SphereCenter + RandVec;
+			FVector ToEndLoc = EndLoc - TraceStart;
+  		
+			return FVector(TraceStart+ToEndLoc*TRACE_LENGTH/ToEndLoc.Size());
+		}
+	
+
+  
 ---
 Pickup Item
 ---
