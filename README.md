@@ -51,10 +51,10 @@ Animation
 CombatComponent
 ---
 무기와의 상호작용 및 교전에 관련된 기능을 구현한 컴포넌트
-+ Equip/Unequip
-+ Fire
-+ Reload
-+ Zoom
++ Equip/Unequip : 바닥의 무기를 착용 및 해제 - E Key
++ Fire : 장착된 무기를 격발 - Mouse Left Button
++ Zoom : FOV를 조정하여 정밀사격 준비 - Mouse Right Button
++ Reload : 무기를 재장전 - R Key
 
 ---
 Weapon
