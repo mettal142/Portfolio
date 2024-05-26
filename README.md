@@ -8,14 +8,14 @@ Unreal Portfolio
 ---
 >YouTube
 
-[![이미지 텍스트](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231827.png)](https://youtu.be/nOkH8RUjV6Y)
+[![이미지 텍스트](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231827.png)](https://youtu.be/nOkH8RUjV6Y)
  + 이미지 클릭 시 영상 재생
 
 ---
 Character
 ---
 + Character Structure
-![스크린샷 2024-03-25 233612](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20224947.png)
+![스크린샷 2024-03-25 233612](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20224947.png)
 
 ---
 Animation
@@ -25,29 +25,29 @@ Animation
 
 > FABRIK 적용 코드 - Animation Instance.cpp 
 
-	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && BlasterCharacter->GetMesh())
+	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && TPSCharacter->GetMesh())
 	{
 		LeftHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("LeftHandSocket"), ERelativeTransformSpace::RTS_World);
 		FVector OutPosition;
 		FRotator OutRotation;
-		BlasterCharacter->GetMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
+		TPSCharacter->GetMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
 		LeftHandTransform.SetLocation(OutPosition);
 		LeftHandTransform.SetRotation(FQuat(OutRotation));
 
-		if (BlasterCharacter->IsLocallyControlled())
+		if (TPSCharacter->IsLocallyControlled())
 		{
 			bLocallyControlled = true;
 			FTransform RightHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("hand_r"), ERelativeTransformSpace::RTS_World);
-			FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(RightHandTransform.GetLocation(), RightHandTransform.GetLocation() + (RightHandTransform.GetLocation() - BlasterCharacter->GetHitTarget()));
+			FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(RightHandTransform.GetLocation(), RightHandTransform.GetLocation() + (RightHandTransform.GetLocation() - TPSCharacter->GetHitTarget()));
 			RightHandRotation = FMath::RInterpTo(RightHandRotation, LookAtRotation, DeltaTime, 30.f);
 		}
 	}
 
-	bUseFABRIK = BlasterCharacter->GetCombatState() != ECombatState::ECS_Reloading;
-	bUseAimOffsets = BlasterCharacter->GetCombatState() != ECombatState::ECS_Reloading && !BlasterCharacter->GetDisableGameplay();
-	bTransformRightHand = BlasterCharacter->GetCombatState() != ECombatState::ECS_Reloading && !BlasterCharacter->GetDisableGameplay();
+	bUseFABRIK = TPSCharacter->GetCombatState() != ECombatState::ECS_Reloading;
+	bUseAimOffsets = TPSCharacter->GetCombatState() != ECombatState::ECS_Reloading && !TPSCharacter->GetDisableGameplay();
+	bTransformRightHand = TPSCharacter->GetCombatState() != ECombatState::ECS_Reloading && !TPSCharacter->GetDisableGameplay();
 
-![FABRIK](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20215345.png)
+![FABRIK](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20215345.png)
   
 ---
 CombatComponent
@@ -144,7 +144,7 @@ Weapon
 			return FVector(TraceStart+ToEndLoc*TRACE_LENGTH/ToEndLoc.Size());
 		}
 
- ![Scatter](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20224651.png)
+ ![Scatter](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20224651.png)
 
 + Red Sphere : 최대 탄퍼짐 영역
 + Cyan Line : 격발된 총알
@@ -155,7 +155,7 @@ Pickup Item
 별도의 상호작용 입력 없이 Collision으로 작용하는 아이템
 + Ammo
 
-  ![Ammo](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20230000.png)
+  ![Ammo](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20230000.png)
 
   > 해당 총기군의 탄약 증가 - AmmoPickup.cpp
   
@@ -164,10 +164,10 @@ Pickup Item
 			{
 				Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComponent, OtherBodyIndex, bFromSweep, SweepResult);
 			
-				ABlasterCharacter* BlasterCharacter = Cast < ABlasterCharacter>(OtherActor);
-				if (BlasterCharacter)
+				ATPSCharacter* TPSCharacter = Cast < ATPSCharacter>(OtherActor);
+				if (TPSCharacter)
 				{
-					UCombatComponent* Combat = BlasterCharacter->GetCombat();
+					UCombatComponent* Combat = TPSCharacter->GetCombat();
 					if (Combat)
 					{
 						Combat->PickupAmmo(WeaponType, AmmoAmount);
@@ -178,7 +178,7 @@ Pickup Item
 			}
 
 + Healing Pack
-  ![Health](https://github.com/mettal142/Portfolio/blob/main/Blaster/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231017.png)
+  ![Health](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231017.png)
   > 일정 시간동안 일정량의 체력 회복 - HealthPickup.cpp
 
 		void AHealthPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -186,10 +186,10 @@ Pickup Item
 			{
 				Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComponent, OtherBodyIndex, bFromSweep, SweepResult);
 			
-				ABlasterCharacter* BlasterCharacter = Cast < ABlasterCharacter>(OtherActor);
-				if (BlasterCharacter)
+				ATPSCharacter* TPSCharacter = Cast < ATPSCharacter>(OtherActor);
+				if (TPSCharacter)
 				{
-					UBuffComponent* Buff = BlasterCharacter->GetBuff();
+					UBuffComponent* Buff = TPSCharacter->GetBuff();
 					if (Buff)
 					{
 						Buff->Heal(HealthAmount,healingTime);
