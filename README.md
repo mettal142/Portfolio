@@ -157,45 +157,55 @@ Pickup Item
 
   ![Ammo](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20230000.png)
 
-  > 해당 총기군의 탄약 증가 - AmmoPickup.cpp
+  > 해당 총기군의 탄약 증가 - CombatComponent.cpp
   
-	   void AAmmoPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
-		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+		void UCombatComponent::PickupAmmo(EWeaponType WeaponType, int32 AmmoAmount)
 			{
-				Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComponent, OtherBodyIndex, bFromSweep, SweepResult);
-			
-				ATPSCharacter* TPSCharacter = Cast < ATPSCharacter>(OtherActor);
-				if (TPSCharacter)
+				if (CarriedAmmoMap.Contains(WeaponType))
 				{
-					UCombatComponent* Combat = TPSCharacter->GetCombat();
-					if (Combat)
-					{
-						Combat->PickupAmmo(WeaponType, AmmoAmount);
-					}
+					CarriedAmmoMap[WeaponType] = FMath::Clamp(CarriedAmmoMap[WeaponType]+AmmoAmount,0,MaxCarriedAmmo);		
+					UpdateCarriedAmmo();
 				}
-				Destroy();
+				if (EquippedWeapon && EquippedWeapon->IsEmpty() && EquippedWeapon->GetWeaponType()==WeaponType)
+				{
+					Reload();
+				}
 			
 			}
-
+  
+		void UCombatComponent::UpdateCarriedAmmo()
+			{
+				if (EquippedWeapon == nullptr) return;
+				if (CarriedAmmoMap.Contains(EquippedWeapon->GetWeaponType()))
+				{
+					CarriedAmmo = CarriedAmmoMap[EquippedWeapon->GetWeaponType()];
+				}
+				Controller = Controller == nullptr ? Cast<ATPSPlayerController>(Character->Controller) : Controller;
+				if (Controller)
+				{
+					Controller->SetHUDCarriedAmmo(CarriedAmmo);
+				}
+			}
+  
 + Healing Pack
   ![Health](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20231017.png)
-  > 일정 시간동안 일정량의 체력 회복 - HealthPickup.cpp
 
-		void AHealthPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-			UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+  > 일정 시간동안 일정량의 체력 회복 - BuffComponent.cpp
+
+	  	void UBuffComponent::HealRampUp(float DeltaTime)
 			{
-				Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComponent, OtherBodyIndex, bFromSweep, SweepResult);
+				if (!bHealing || Character == nullptr || Character->IsElimmed()) return;
 			
-				ATPSCharacter* TPSCharacter = Cast < ATPSCharacter>(OtherActor);
-				if (TPSCharacter)
+				const float HealThisFrame = HealingRate * DeltaTime;
+				Character->SetHealth(FMath::Clamp(Character->GetHealth() + HealThisFrame, 0.f, Character->GetMaxHealth()));
+				Character->UpdateHUDHealth();
+				AmountToHeal -= HealThisFrame;
+			
+				if (AmountToHeal <= 0 || Character->GetHealth()>=Character->GetMaxHealth())
 				{
-					UBuffComponent* Buff = TPSCharacter->GetBuff();
-					if (Buff)
-					{
-						Buff->Heal(HealthAmount,healingTime);
-					}
+					bHealing = false;
+					AmountToHeal = 0.f;
 				}
-				Destroy();
-			
 			}
+
 
