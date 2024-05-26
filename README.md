@@ -15,7 +15,7 @@ Unreal Portfolio
 Character
 ---
 + Character Structure
-![스크린샷 2024-03-25 233612](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-19%20224947.png)
+![스크린샷 2024-03-25 233612](https://github.com/mettal142/Portfolio/blob/main/Images/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202024-05-26%20200815.png)
 
 ---
 Animation
